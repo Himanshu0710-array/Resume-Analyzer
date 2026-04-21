@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Analyzer - Bulk Filtering</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>AI Resume Analyzer</h1>
+    <p style="text-align: center; margin-bottom: 20px; font-size: 14px; opacity: 0.8;">Filters candidates scoring > 65 based strictly on Skills & Projects.</p>
+
+    <form id="form">
+        <div class="form-group">
+            <label for="resumes">Upload Resumes <br><small style="color: #4facfe;">(Hint: Hold Ctrl or Cmd while clicking files in the dialog to select multiple!)</small></label>
+            <input type="file" name="resumes" id="resumes" accept=".pdf" multiple required>
+        </div>
+        <div class="form-group">
+            <label for="jd">Job Description</label>
+            <textarea name="jd" id="jd" placeholder="Paste the Job Description here to extract key requirements..." required></textarea>
+        </div>
+        <button type="submit" id="submitBtn">Analyze Resumes</button>
+    </form>
+
+    <div id="loading">
+        <span class="spinner"></span> AI is reading the targeted sections of the resumes...
+    </div>
+
+    <div id="result">
+        <div id="shortlisted-section">
+            <h2>🏆 Shortlisted Candidates (> 65%)</h2>
+            <div id="shortlisted-container" class="candidates-grid"></div>
+            <div id="no-shortlisted" style="display: none; text-align: center; padding: 20px;">
+                <p>No candidates met the threshold score of 65.</p>
+            </div>
+        </div>
+
+        <div id="other-section" style="margin-top: 40px;">
+            <h2 style="font-size: 18px; opacity: 0.8;">Other Candidates (< 65%)</h2>
+            <div id="other-container" class="candidates-grid" style="opacity: 0.7;"></div>
+        </div>
+    </div>
+</div>
+
+<template id="candidate-template">
+    <div class="candidate-card">
+        <h3 class="filename"></h3>
+        <div class="card-inner">
+            <div class="score-container">
+                <svg viewBox="0 0 36 36" class="circular-chart">
+                  <path class="circle-bg"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path class="circle"
+                    stroke-dasharray="0, 100"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <text x="18" y="21" class="percentage">0%</text>
+                </svg>
+            </div>
+            <div class="skills-info">
+                <div class="skills-section">
+                    <h4>Matched</h4>
+                    <div class="skills-container matched-container"></div>
+                </div>
+                <div class="skills-section">
+                    <h4>Missing</h4>
+                    <div class="skills-container missing-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
