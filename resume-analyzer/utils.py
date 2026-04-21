@@ -1,6 +1,5 @@
-import fitz  
+import PyPDF2  
 import re
-from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 
 
 CUSTOM_STOP_WORDS = {
@@ -88,13 +87,13 @@ CUSTOM_STOP_WORDS = {
 }
 
 
-ALL_STOP_WORDS = ENGLISH_STOP_WORDS.union(CUSTOM_STOP_WORDS)
+ALL_STOP_WORDS = CUSTOM_STOP_WORDS
 
 def extract_text_from_pdf(file):
     text = ""
-    pdf = fitz.open(stream=file.read(), filetype="pdf")
-    for page in pdf:
-        text += page.get_text()
+    reader = PyPDF2.PdfReader(file)
+    for page in reader.pages:
+        text += page.extract_text() or ""
     return text
 
 def extract_targeted_sections(text):
