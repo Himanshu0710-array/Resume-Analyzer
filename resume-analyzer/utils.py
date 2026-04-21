@@ -130,18 +130,15 @@ def extract_targeted_sections(text):
     return extracted.lower()
 
 def extract_keywords(text):
-    # Keep symbols common in tech skills (like C++, C#, .NET, Node.js)
+    
     text = re.sub(r'[^a-zA-Z0-9\s\+#\.]', ' ', text.lower())
     words = text.split()
     
     clean_words = []
     for w in words:
-        # Strip trailing/leading periods (e.g., from end of sentences)
         w = w.strip('.')
         if w:
             clean_words.append(w)
-            
-    # Include words > 1 char (ml, ai, js, ux, etc.) or specific 1-char skills (c, r)
     keywords = set([w for w in clean_words if w not in ALL_STOP_WORDS and (len(w) > 1 or w in ['c', 'r'])])
     return keywords
 
